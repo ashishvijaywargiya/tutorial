@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+
+    <!--
+    Case 1:
+    Relationship Types: One to Many and Many to One(No foreign key constraints exists)
+    Here you can remove TutorialTest entity altogether.
+    Here you can use any value in Tutorial.tutorialTestId field - you can use any key from TutorialTest.tutorialTestId field or use any values.
+    -->
+    <entity entity-name="Tutorial" package="tutorial">
+        <field name="tutorialId" type="id" is-pk="true"/>
+        <field name="description" type="text-medium"/>
+        <field name="tutorialTestId" type="id"/>
+        <relationship type="one-nofk" related="tutorial.TutorialTest" short-alias="tutorialtest"/>
+    </entity>
+
+    <entity entity-name="TutorialTest" package="tutorial">
+        <field name="tutorialTestId" type="id" is-pk="true"/>
+        <field name="description" type="text-medium"/>
+    </entity>
+
+
+    <!--
+    Case 2:
+    Relationship Types: One to Many and Many to One(Foreign key constraints exists)
+    Here you can not remove TutorialTest entity if some references records from this entity does exists in Tutorial entity.
+    Here you can only use value in Tutorial.tutorialTestId field coming from TutorialTest.tutorialTestId field.
+    -->
+    <!--
+    <entity entity-name="Tutorial" package="tutorial">
+        <field name="tutorialId" type="id" is-pk="true"/>
+        <field name="description" type="text-medium"/>
+        <field name="tutorialTestId" type="id"/>
+        <relationship type="one" related="tutorial.TutorialTest" short-alias="tutorialtest"/>
+    </entity>
+
+    <entity entity-name="TutorialTest" package="tutorial">
+        <field name="tutorialTestId" type="id" is-pk="true"/>
+        <field name="description" type="text-medium"/>
+    </entity>
+    -->
+
+    <!--
+    Case 3:
+    Relationship Types: One to One(Foreign key constraints exists). Here Primary Key from one entity become part of primary key in other entity.
+    Here you can not remove TutorialOne entity if some references records from this entity does exists in TutorialTwo entity.
+    Here you can only use value in TutorialTwo.tutorialOneId field coming from TutorialOne.tutorialOneId field.
+    Here we have used the same pattern as we have in Party and Person entities.
+    -->
+
+    <entity entity-name="TutorialOne" package="tutorial">
+        <field name="tutorialOneId" type="id" is-pk="true"/>
+        <relationship type="one-nofk" related="tutorial.TutorialTwo" short-alias="tutorialOne"/>
+    </entity>
+
+    <entity entity-name="TutorialTwo" package="tutorial">
+        <field name="tutorialOneId" type="id" is-pk="true"/>
+        <relationship type="one" related="tutorial.TutorialOne"/>
+    </entity>
+
+</entities>
